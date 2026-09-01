@@ -25,11 +25,31 @@ failure so Claude Code is never blocked.
 
 ## Install
 
-> One-liner installer is added in a later task. Placeholder:
+> One line:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShingWong/positronic-claude-code-plugin/main/install.sh)"
 ```
+
+Preflight: `python3` and `pip` on PATH (Debian/Ubuntu usually need
+`python3-pip`; the installer falls back to `--user` then
+`--break-system-packages` for PEP-668 hosts).
+
+What it does:
+
+1. Installs the `positronic_ai` (PAI) package from GitHub — best-effort, skips
+   cleanly if already present.
+2. Symlinks this plugin into `~/.claude/skills/positronic` so Claude Code
+   auto-loads it as a `@skills-dir` plugin.
+3. Verifies with `python3 -m positronic_ai info --json`.
+
+Uninstall:
+
+```bash
+rm ~/.claude/skills/positronic
+```
+
+(Optionally `pip uninstall positronic-agent-interface` to remove PAI itself.)
 
 Manual install: place this repo (or a checkout) somewhere permanent and add the
 plugin via Claude Code's plugin mechanism pointing at the repo root containing
