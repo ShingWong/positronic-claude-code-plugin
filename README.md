@@ -19,9 +19,15 @@ failure so Claude Code is never blocked.
 | Hook              | Script              | Behavior                                                            |
 |-------------------|---------------------|---------------------------------------------------------------------|
 | `SessionStart`    | `scripts/wake.sh`   | `positronic_ai wake --json` — prints the brief to stdout            |
-| `UserPromptSubmit`| `scripts/ingest.sh` | extracts `prompt` from JSON → `positronic_ai ingest ... --arousal 0.5` |
+| `UserPromptSubmit`| `scripts/ingest.sh` | extracts `prompt` → `positronic_ai ingest ... --role user --dedup`   |
 | `PreCompact`      | `scripts/compact.sh`| `positronic_ai prune --json` + `consolidate "session compacted"`     |
-| `Stop`            | `scripts/stop.sh`   | `consolidate "turn boundary" --arousal 0.2`                          |
+| `Stop`            | `scripts/stop.sh`   | `positronic_ai ingest "last_assistant_message" --role assistant` (falls back to a `consolidate "turn boundary"` marker when the payload has no text) |
+| `SubagentStop`    | `scripts/subagent_stop.sh` | ingests the subagent's `last_assistant_message` (role=assistant, `[agent_type]` prefix) |
+
+The plugin captures **both sides** of the conversation: `UserPromptSubmit`
+stores the user prompt (role `user`, deduped), and `Stop`/`SubagentStop`
+store the assistant's final response(s) (role `assistant`) via the
+`last_assistant_message` field — no transcript parsing needed.
 
 ## Memory lifecycle: compaction-driven
 

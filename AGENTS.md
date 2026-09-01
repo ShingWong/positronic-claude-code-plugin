@@ -22,9 +22,10 @@ positronic-claude-code-plugin/
 | Hook              | Script              | Behavior                                                            |
 |-------------------|---------------------|---------------------------------------------------------------------|
 | `SessionStart`    | `scripts/wake.sh`   | `positronic_ai wake --json` — prints the brief to stdout            |
-| `UserPromptSubmit`| `scripts/ingest.sh` | extracts `prompt` from JSON → `positronic_ai ingest ... --arousal 0.5` |
+| `UserPromptSubmit`| `scripts/ingest.sh` | extracts `prompt` → `positronic_ai ingest ... --role user --dedup`   |
 | `PreCompact`      | `scripts/compact.sh`| `positronic_ai prune --json` + `consolidate "session compacted"`     |
-| `Stop`            | `scripts/stop.sh`   | `consolidate "turn boundary" --arousal 0.2`                          |
+| `Stop`            | `scripts/stop.sh`   | `positronic_ai ingest "last_assistant_message" --role assistant` (fallback: `consolidate "turn boundary"`) |
+| `SubagentStop`    | `scripts/subagent_stop.sh` | ingests subagent `last_assistant_message` (role=assistant, `[agent_type]` prefix) |
 
 Hooks are shell commands; scripts resolve everything via `${CLAUDE_PLUGIN_ROOT}`
 and read the hook JSON payload on stdin. They must never block or fail the host

@@ -7,5 +7,5 @@ prompt="$(printf '%s' "$payload" | python3 -c 'import sys,json
 try: print(json.load(sys.stdin).get("prompt",""))
 except Exception: print("")' 2>/dev/null)"
 if [ -n "${prompt:-}" ]; then
-  python3 -m positronic_ai ingest "$prompt" --arousal 0.5 --dedup >/dev/null 2>&1 || true
+  python3 -m positronic_ai ingest "$prompt" --arousal 0.5 --dedup --role user >/dev/null 2>&1 || true
 fi
