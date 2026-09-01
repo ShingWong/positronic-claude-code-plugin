@@ -110,7 +110,8 @@ positronic-claude-code-plugin/
 
 The hooks ingest and prune automatically, but the model only *retrieves* if
 something tells it to. Add one rule to your project's `CLAUDE.md` so it
-reaches for the brain instead of re-deriving:
+reaches for the brain instead of re-deriving. Retrieval is single-digit
+milliseconds; re-reading a codebase from scratch is not.
 
 ```markdown
 ## Memory
@@ -119,11 +120,25 @@ This project has a polytemporal memory brain (`.positronic/`). Before
 answering about prior work, decisions, or history, run
 `python -m positronic_ai recall "<topic>" --json` and use the results.
 Don't guess from scratch — recall is milliseconds.
+
+    # distilled memory first:   python -m positronic_ai recall "<topic>" --consolidation only
+    # object history:           python -m positronic_ai ask "<object>"
+
+This rule binds the main model and every subagent: query/recall before you
+re-derive. Plan docs should carry a recall step for long-running work.
 ```
 
-The bundled `memory` skill teaches the same behavior on demand. Retrieval is
-single-digit milliseconds; the setup is one rule. A fuller worked example
-(including subagent coverage and a plan-docs step) is in the
+Key points:
+
+- **Recall, don't re-read.** Ingestion is automatic (the hooks); retrieval is the cheap operation.
+- **Bind every agent.** State the rule so subagents inherit it — a main agent that recalls
+  but whose subagents re-derive wastes the setup.
+- **Prefer distilled memory.** Start with `--consolidation only` for conclusions; use
+  `ask "<object>"` for object history. Default recall is full (needle-in-haystack).
+- **PII.** `.positronic/` holds brain state and may contain PII — git-ignore it, never commit.
+
+The bundled `memory` skill teaches the same behavior on demand. A fuller worked
+example (including subagent coverage and a plan-docs step) is in the
 [positronic-agent-interface README](https://github.com/ShingWong/positronic-agent-interface).
 
 ## Privacy
