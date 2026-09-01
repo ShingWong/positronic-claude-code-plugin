@@ -23,6 +23,40 @@ failure so Claude Code is never blocked.
 | `PreCompact`      | `scripts/compact.sh`| `positronic_ai prune --json` + `consolidate "session compacted"`     |
 | `Stop`            | `scripts/stop.sh`   | `consolidate "turn boundary" --arousal 0.2`                          |
 
+## Memory lifecycle: compaction-driven
+
+Forgetting and summarization run on Claude Code's **compaction event**, not on
+a timer or prompt counter. When a session compacts (context summarized away),
+the `PreCompact` hook fires and:
+
+1. **prunes** the brain — τ-decay demotes/expires episodes per the retention
+   profile (`positronic_ai prune`), and
+2. writes a **consolidation marker** — a `kind='consolidation'` episode
+   (`positronic_ai consolidate "session compacted"`).
+
+This is the primary lifecycle. It costs nothing when nothing compacts, and it
+fires exactly when old context is summarized away — the natural era boundary
+for forgetting and for a summary marker.
+
+**Why automatic prune/consolidate counters are disabled by default.** PAI's
+counter-based auto-triggers (`auto.consolidate_every` / `auto.prune_every`)
+are an *opt-in fallback* for sessions that never compact (long-running,
+low-churn context). They are off by default (`0`) because the compaction hook
+already covers the normal case, and a blind counter would fire regardless of
+whether an actual era boundary occurred. Enable them only if you want a
+fixed-cadence fallback:
+
+```bash
+positronic config consolidate_every 300
+positronic config prune_every 1000
+```
+
+(`0` disables either.)
+
+**Dedup.** `ingest.sh` passes `--dedup`, so a repeated user prompt is skipped
+(string-compare against the last episode) instead of re-ingesting itself into
+the brain.
+
 ## Install
 
 > One line:
