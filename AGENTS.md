@@ -22,6 +22,7 @@ positronic-claude-code-plugin/
 | Hook              | Script              | Behavior                                                            |
 |-------------------|---------------------|---------------------------------------------------------------------|
 | `SessionStart`    | `scripts/wake.sh`   | `positronic_ai wake --json` — prints the brief to stdout            |
+| `SessionStart` (matcher `compact`) | `scripts/remind.sh` | read-only: emits `additionalContext` reintroducing the brain-first rule once per compaction; never ingests, so the reminder text can't enter the brain |
 | `UserPromptSubmit`| `scripts/ingest.sh` | extracts `prompt` → `positronic_ai ingest ... --role user --dedup`   |
 | `PreCompact`      | `scripts/compact.sh`| `positronic_ai prune --json` + `consolidate "session compacted"`     |
 | `Stop`            | `scripts/stop.sh`   | `positronic_ai ingest "last_assistant_message" --role assistant` (fallback: `consolidate "turn boundary"`) |
