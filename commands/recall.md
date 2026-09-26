@@ -3,7 +3,7 @@ description: Recall memories matching a topic across federated brains
 argument-hint: <topic>
 ---
 
-<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR Commercial -->
 <!-- Copyright (C) 2026 Shing Wong -->
 
 Run from the project root:

@@ -3,7 +3,7 @@ name: memory
 description: Use when you need prior context, facts, or long-term continuity — query the positronic brain before guessing.
 ---
 
-<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR Commercial -->
 <!-- Copyright (C) 2026 Shing Wong -->
 
 # Memory — consult the positronic brain
