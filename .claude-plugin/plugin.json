@@ -3,5 +3,5 @@
   "version": "0.1.0",
   "description": "Polytemporal memory for Claude Code — hooks + CLI (positronic_ai)",
   "author": { "name": "Shing Wong" },
-  "license": "GPL-3.0-or-later"
+  "license": "AGPL-3.0-or-later OR LicenseRef-Commercial"
 }

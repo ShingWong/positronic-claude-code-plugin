@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR Commercial -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Commercial -->
 <!-- Copyright (C) 2026 Shing Wong -->
 
 # positronic-claude-code-plugin
@@ -8,7 +8,7 @@ hooks into the `positronic_ai` Python package (PAI CLI), giving each session
 wake/ingest/prune/consolidate behavior backed by a local brain at
 `.positronic/brains/{name}/memory.db`.
 
-The plugin is AGPL-3.0-or-later OR Commercial. See `LICENSE`.
+The plugin is AGPL-3.0-or-later OR LicenseRef-Commercial. See `LICENSE`.
 
 ## Hooks
 

@@ -3,7 +3,7 @@ description: Show federated memory stats — episodes per brain
 argument-hint: [brain]
 ---
 
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR Commercial -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Commercial -->
 <!-- Copyright (C) 2026 Shing Wong -->
 
 Run from the project root:

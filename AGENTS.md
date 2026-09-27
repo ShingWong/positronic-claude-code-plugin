@@ -1,9 +1,9 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR Commercial -->
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later OR LicenseRef-Commercial -->
 <!-- Copyright (C) 2026 Shing Wong -->
 
 # AGENTS.md — positronic-claude-code-plugin
 
-Claude Code plugin for the positron brain. Every file is AGPL-3.0-or-later OR Commercial
+Claude Code plugin for the positron brain. Every file is AGPL-3.0-or-later OR LicenseRef-Commercial
 (see `LICENSE`; JSON/markdown carry the license note here or in the manifest).
 
 ## Layout
