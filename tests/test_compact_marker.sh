@@ -29,7 +29,20 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DIR="$(mktemp -d)"
 trap 'rm -rf "$DIR"' EXIT
 cd "$DIR"
-export PYTHONPATH="${PYTHONPATH:-}:/usr/local/devel/positronic/positronic-engram/engine/src"
+# memeng reaches this test as a declared dependency of positronic_ai, so there
+# is normally nothing to add. Only fall back to a sibling engram checkout when
+# memeng genuinely will not import. No absolute default: a path baked into a
+# published repository works only on the machine that wrote it and discloses
+# that machine's directory layout.
+if ! python3 -c 'import memeng' >/dev/null 2>&1; then
+  for _root in "${POSITRONIC_WORKSPACE:-}" "$ROOT/.."; do
+    [ -n "$_root" ] || continue
+    if [ -d "$_root/positronic-engram/engine/src/memeng" ]; then
+      export PYTHONPATH="${PYTHONPATH:-}:$_root/positronic-engram/engine/src"
+      break
+    fi
+  done
+fi
 
 python3 -m positronic_ai init --brain kairos --profile balanced --embed lexical >/dev/null 2>&1
 python3 -m positronic_ai ingest "decided: ship the prune fix to main on web2" --arousal 1.0 >/dev/null 2>&1
